@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--This file represents user settings about package information that will be packaged into vxp(MRE 2.0)-->
+<packageinfo>
+  <advanceoption>
+    <adscpu>ARM7EJ-S</adscpu>
+    <adscompiler>-O2 -g -apcs /ropi/rwpi -cpu ARM7EJ-S</adscompiler>
+    <adstcccompiler>-O2 -g -apcs /ropi/rwpi/interwork -cpu ARM7EJ-S</adstcccompiler>
+    <adslinker>-info totals -rwpi -ropi </adslinker>
+    <rvctcpu>ARM7EJ-S</rvctcpu>
+    <rvctcompiler>-O2 -g --split_sections --apcs=/fpic -cpu ARM7EJ-S -D__MRE_COMPILER_RVCT__</rvctcompiler>
+    <rvcttcccompiler>-O2 -g --split_sections --apcs=/fpic/interwork -cpu ARM7EJ-S -D__MRE_COMPILER_RVCT__</rvcttcccompiler>
+    <rvctlinker>--fpic --sysv --entry rvct_entry --first rvct_entry</rvctlinker>
+    <gcccpu />
+    <gcccompiler>-c -fpic -g -mcpu=arm7tdmi-s -fvisibility=hidden -mthumb -mlittle-endian -O2 -D__MRE_COMPILER_GCC__ -fno-exceptions -fno-non-call-exceptions</gcccompiler>
+    <gcctcccompiler>-c -g -fpic -mcpu=arm7tdmi-s -fvisibility=hidden -mthumb -mlittle-endian -O2 -D__MRE_COMPILER_GCC__ -fno-exceptions -fno-non-call-exceptions</gcctcccompiler>
+    <gcclinker>-fpic -msvr4-struct-return -pie </gcclinker>
+    <select>0</select>
+    <OutputPath>ARM</OutputPath>
+    <thumbenbale>FALSE</thumbenbale>
+    <option>
+      <includepath>C:\Program Files (x86)\MRE SDK V3.0.00\include</includepath>
+      <includepath>C:\Program Files (x86)\MRE SDK V3.0.00\include\service</includepath>
+      <librarypath>C:\Program Files (x86)\MRE SDK V3.0.00\lib\MRE30</librarypath>
+    </option>
+  </advanceoption>
+</packageinfo>

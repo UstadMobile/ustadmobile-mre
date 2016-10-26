@@ -1,0 +1,4 @@
+<APP id="APP_MRE_API_Tests">
+    <RESOLUTION width="240" height="320" class="image" />
+    <STRING>.\res\ref_list_MRE_API_Tests.txt</STRING>
+</APP>

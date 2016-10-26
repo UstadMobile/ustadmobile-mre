@@ -1,0 +1,72 @@
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+
+#Batch files
+#*.bat
+
+#Build procedure files
+*.axf
+
+#Visual Studio files
+*.sln
+*.suo
+*.vcproj
+*.vcproj.user
+*.vcproj.*
+*.ncb
+
+#Old impl folder
+v1.0impl
+
+#arm folder
+arm
+
+#Debug folder
+Debug
+
+#Ubuntu temp files
+*.swp
+
+#Manual Backup files
+*.bak
+
+#Log files
+*.log
+
+#Other files
+*.ini
+*.def
+*.mak
+
+
