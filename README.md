@@ -40,7 +40,7 @@ $(WindowsSdkDir)\lib
 
 C:\Program Files(x86)\MRE SDK V3.0.00\lib
 
- ![vs02](images\vs02.png)
+ ![vs02](images/vs02.png)
 
  
 
@@ -56,7 +56,7 @@ C:\Program Files(x86)\Microsoft Visual Studio 9.0\VC\bin\Addins
 
 And copy the files :MRE.AddIn and MRE2.0.dll from C:\Program Files (x86)\MRE SDK V3.0.00\tools intothis folder
 
- ![vs03](images\vs03.png) ![vs04](images\vs04.png) 
+ ![vs03](images/vs03.png) ![vs04](images/vs04.png) 
 
 Then tell VisualStudio to look for Add Ins in that folder by going to:
 
@@ -64,7 +64,7 @@ VS2008>Tools>Options> Environment > Add-in/Macros Security 
 
 Here"Add.." the Add in File Path 
 
- ![vs05](images\vs05.png)
+ ![vs05](images/vs05.png)
 
 Restart VisualStudio.
 
@@ -72,13 +72,13 @@ The go to :
 
 VS2008 > Tools> Add-in Manager and you can see the MRE toolbar in there.
 
- ![vs06](images\vs06.png)
+ ![vs06](images/vs06.png)
 
  
 
 If you build via MRE toolbar it will make the vxp file. Also You need to start VS2008as Administrator because it needs access to Program Files / MRE folder.
 
- ![build-success](images\build-success.png)
+ ![build-success](images/build-success.png)
 
 #### Folder tree structure of the Project after compilation
 
@@ -159,7 +159,7 @@ You need to have a license to proceed further. Obtain it.
 
 To access this, hit the Settings/Options button on the MRE toolbar in Visual Studio or in the MRE SDK 3.0 application (MRELauncher.exe) after opening and loading your project. 
 
- ![armop01](images\armop01.png) ![armop02](images\armop02.png)
+ ![armop01](images/armop01.png) ![armop02](images/armop02.png)
 
 ```
 	ARM Processor: ARM7EJ-S
@@ -176,7 +176,7 @@ To access this, hit the Settings/Options button on the MRE toolbar in Visual Stu
 
 The structure of the project is divided into Headers and corresponding Source files. Most of the header files have declaration and Source file have the definitions. Exception to "nuklear_mre.h" and "mre_menu.h" which are source files renamed as header files.
 
- ![structure](images\structure.JPG)
+ ![structure](images/structure.JPG)
 
 The main source file here is MRE_API_Tests.c where vm_main() is present which gets executed first. 
 
@@ -199,7 +199,7 @@ The main source file here is MRE_API_Tests.c where vm_main() is present which ge
 
 
 
- ![flowchart01](images\flowchart01.PNG)
+ ![flowchart01](images/flowchart01.PNG)
 
 #### Notes about the above flowchart
 
