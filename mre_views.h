@@ -41,4 +41,7 @@ void goto_next_page();
 void goto_previous_page();
 
 /* Mre show image */
-void mre_show_image();
+void mre_show_image_old();
+
+/* MRE Show Image */
+void mre_show_image(VMINT size_ctrl, VMSTR file_name, VMINT *mre_layer_hdl);

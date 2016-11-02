@@ -63,6 +63,31 @@ share.h Shared global variables
 
 #define VM_NO_TRANSPARENT_COLOR (-1)
 
+/* Image related */
+#define MRE_GRAPHIC_IMAGE_EXPAND (1)
+#define MRE_GRAPHIC_IMAGE_SHRINK (2)
+#define MRE_GRAPHIC_IMAGE_CURRENT (3)
+#define MRE_GRAPHIC_IMAGE_ROTATE_CW (4)
+#define MRE_GRAPHIC_IMAGE_ROTATE_AW (5)
+#define MRE_GRAPHIC_IMAGE_MIRROR (6)
+#define MRE_GRAPHIC_IMG_MIR_DIR_X (0)
+#define MRE_GRAPHIC_IMG_MIR_DIR_Y (1)
+#define MRE_IMG_JPG (0)
+#define MRE_IMG_GIF (1)
+#define MRE_SET_SRC_LEFT_TOP_X (0)
+#define MRE_SET_SRC_LEFT_TOP_Y (0)
+#define MRE_IMG_MIN_SIZE (0)
+#define MRE_IMG_MAX_SIZE (300)
+#define MRE_IMG_ANI_RATE (100)
+#define MRE_IMG_EXP_RATE (5) 
+#define MRE_BG_TRANS_COLOR (-1)
+#define MRE_POS_CEN_X (100)
+#define MRE_POS_CEN_Y (150)
+#define MRE_IMG_ANI_FIRST_FRAME (1)
+#define MRE_SET_IMG_ROT (90)
+#define MRE_WHOLE_ROT (360)
+#define MRE_SPACE_BTW_LN (6)
+
 /////////////////////////////NUKLEAR SPECIFIC STUFF///////////////////////////
 /* Preprocessor macros */
 #define WINDOW_WIDTH 240
@@ -118,6 +143,15 @@ VMINT	g_mre_textbox_state;
 VMINT	g_mre_subcontext;
 VMINT	g_mre_drv;
 VMINT	g_mre_fileiocontext;	//In file io context
+
+/* image related */
+VMINT g_mre_img_y_pos;
+VMINT g_mre_img_x_pos;
+VMINT g_mre_img_size_cng; 
+VMINT g_mre_img_clockwise_cnt;
+VMINT g_mre_img_dir;
+VMINT g_mre_curr_x;
+VMINT g_mre_curr_y;
 
 /* Declaration */
 void mre_tcp_callback_application(VMINT handle, VMINT event);

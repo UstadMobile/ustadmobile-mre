@@ -1,0 +1,3 @@
+v0.0.02
+- Added display image that uses canvas to display image onto the layer
+
