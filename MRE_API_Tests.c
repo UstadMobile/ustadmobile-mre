@@ -71,11 +71,13 @@ void vm_main(void)
 		change it. I could mix them both into one event handler but we already tested the API's. Now its time
 		to test nuklear and make the application, its views around this.
 	*/
+	///*
 	// For Nuklear Testing:
 	vm_reg_sysevt_callback (nk_mre_handle_sys_event); //looks at implementation event handler (does thesame thing)
 	vm_reg_keyboard_callback (nk_mre_handle_key_event);	//Keyboard callback
 	vm_reg_pen_callback (handle_penevt);	//Pen callback - not really needed
 	//initiate_nuklear_gui(); //Disabling, the method: nk_mre_handle_sys_event will call it.
+	//*/
 	
 	/*
 	//For API Testing:

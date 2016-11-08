@@ -4375,6 +4375,8 @@ NK_API void
 nk_buffer_init(struct nk_buffer *b, const struct nk_allocator *a,
     nk_size initial_size)
 {
+
+	void * mem_ptr;
 	//nk_buffer_init(&ctx->memory, alloc, NK_DEFAULT_COMMAND_BUFFER_SIZE);
 	//(implementation's context -> memory, alloc obj, 4096)
 	// b: ctx->memory (nk_buffer)
@@ -4390,8 +4392,17 @@ nk_buffer_init(struct nk_buffer *b, const struct nk_allocator *a,
 
 	//TODO: Remove this. Added for Debugging purposes. 
 	//ptr = a->alloc(a->userdata, 0, initial_size);
+	//TODO 4thNovember2016: Sort this memory malloc stuff out! 
+	//b->memory.ptr = a->alloc(a->userdata,0, initial_size); ///bug3 here - solution: aparantely on emulator malloc instead of vm_malloc works.
+	//b->memory.ptr = malloc(initial_size);
 
-	b->memory.ptr = a->alloc(a->userdata,0, initial_size); ///bug3 here - solution: aparantely on emulator malloc instead of vm_malloc works.
+	//b->memory.ptr = a->alloc(a->userdata,0, initial_size);
+	b->memory.ptr = (void*) vm_malloc(initial_size); //Doesn't work - Throws exception
+
+	//mem_ptr = (void *) vm_malloc(initial_size); //Throws Exception
+	//mem_ptr = vm_malloc(initial_size); //Also throws an exception
+	//b->memory.ptr = (struct nk_memory*) vm_malloc(initial_size);// Throws Exception
+
     b->memory.size = initial_size;
     b->size = initial_size;
     b->grow_factor = 2.0f;
@@ -14678,9 +14689,21 @@ nk_pool_init_fixed(struct nk_pool *pool, void *memory, nk_size size)
     pool->size = size;
 }
 
+/* Testing vm_malloc works until which level or at all here */ 
+void test_vm_malloc(){
+	int ptr_size;
+	void *ptr;
+	ptr_size = 16;
+	ptr = vm_malloc(ptr_size);
+	vm_free(ptr);
+}
+
 NK_INTERN struct nk_page_element*
 nk_pool_alloc(struct nk_pool *pool)
 {
+	void *test_ptr;
+	int ptr_size;
+
     if (!pool->pages || pool->pages->size >= pool->capacity) {
         /* allocate new page */
         struct nk_page *page;
@@ -14694,7 +14717,17 @@ nk_pool_alloc(struct nk_pool *pool)
         } else {
             nk_size size = sizeof(struct nk_page);
             size += NK_POOL_DEFAULT_CAPACITY * sizeof(union nk_page_data);
-            page = (struct nk_page*)pool->alloc.alloc(pool->alloc.userdata,0, size);
+            //page = (struct nk_page*)pool->alloc.alloc(pool->alloc.userdata,0, size);
+			//page = (struct nk_page*)malloc(size);
+			//ptr_size = 1024;
+			//test_ptr = vm_malloc(ptr_size); // Conclusion: vm_malloc doesn't work here for some reason
+ 
+			//page = (struct nk_page*)vm_malloc((int)size); //Exception
+			//page = vm_malloc(size);	//Exception
+
+			//page = (struct nk_page*)pool->alloc.alloc(pool->alloc.userdata,0, size);
+			page = (struct nk_page*)vm_malloc((int)size);
+
             page->size = 0;
             page->next = pool->pages;
             pool->pages = page;

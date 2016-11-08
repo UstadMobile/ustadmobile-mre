@@ -1,3 +1,8 @@
+v0.0.06
+- Fixed Memory allocation bug 
+- Added Image to Video capability
+- Added roadmap and estimation
+
 v0.0.02
 - Added display image that uses canvas to display image onto the layer
 

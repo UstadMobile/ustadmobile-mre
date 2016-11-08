@@ -23,7 +23,15 @@ VMINT mre_create_file (VMSTR file_name)
     VMWCHAR f_wname[MRE_STR_SIZE_MAX + 1];
     VMCHAR show_text[MRE_STR_SIZE_MAX + 1];
     VMUINT written;
+	void *test_ptr;
+	int ptr_size;
     vm_log_debug("mre_create_file function starts with file name : %s ", file_name);
+
+	//Testing only. Result: works
+	/*
+	ptr_size = 1024;
+	test_ptr = vm_malloc(ptr_size);
+	*/
 
 	sprintf (f_name, "%c:\\%s", mre_get_drv(), file_name);
     vm_log_file("file name\n");

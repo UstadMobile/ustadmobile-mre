@@ -1,0 +1,9 @@
+MRE project estimation:
+Image showing with Video play button overlay : 9 / 11 / 2016
+Find, Read, Unzup from .epub zip file	:	15 / 11 / 2016 
+Parse xhtml and create components 		:	21 / 11 / 2016
+Test performance and tweak / fix errors on device	:	24 / 11 / 2016
+Create Login Views, Generate, Queue statements for access, playback, view:		4 / 12 /2016
+
+On Device(s) testing and performance fixes	:	11 / 12 / 2016
+Send VXP to MSFT for signing				:	12 / 12 / 2016

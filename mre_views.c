@@ -37,10 +37,6 @@ void goto_previous_page(){
 
 }
 
-/* mre_show_image placeholder */
-void mre_show_image_old(){
-	//Testing
-}
 
 /*****************************************************************************
  * FUNCTION
@@ -52,7 +48,7 @@ void mre_show_image_old(){
  * RETURNS
  *	none
 *****************************************************************************/
-void mre_show_image(VMINT size_ctrl, VMSTR file_name, VMINT *mre_layer_hdl)
+void mre_show_image(VMINT size_ctrl, VMWSTR f_wname, VMSTR file_name, VMINT *mre_layer_hdl)
 {
 	/* local variables */
 	VMUINT8 *res=NULL;
@@ -68,9 +64,11 @@ void mre_show_image(VMINT size_ctrl, VMSTR file_name, VMINT *mre_layer_hdl)
 	VMWSTR wfilename;
 	VMINT wfilename_size;
 	VMSTR filename;
+	VMSTR filename_vm;
 	VMCHAR f_name[MRE_STR_SIZE_MAX + 1];	//Old usage for video filename string
-	VMWCHAR f_wname[MRE_STR_SIZE_MAX + 1]; //Old usage for video filename
-	//VMSTR file_name = "tips.gif";
+	//VMWCHAR f_wname[MRE_STR_SIZE_MAX + 1]; //Old usage for video filename Part of the argument now
+
+	//VMSTR file_name = "tips.gif"; // Part of argument now
 	VMFILE file_handle;
 	VMUINT nread;
 	VMINT file_read_ret; //file read return value
@@ -79,20 +77,27 @@ void mre_show_image(VMINT size_ctrl, VMSTR file_name, VMINT *mre_layer_hdl)
 	VMCHAR *data;
 	 
 	/* Getting em strings ready */
+	/*
 		//Gotta allocate VMSTR before we do anything to it!
-		filename = vm_malloc(MRE_STR_SIZE_MAX);
+		//filename_vm = malloc(MRE_STR_SIZE_MAX); //Testing
+		//filename = (VMSTR)vm_malloc(MRE_STR_SIZE_MAX); //Testing
+		filename = malloc(MRE_STR_SIZE_MAX);
 		sprintf (filename, "%c:\\%s", vm_get_removable_driver(), file_name);
 		//Gotta allocate VMWSTR before we do anything to it!
-		wfilename_size = (strlen(filename) + 1) * 2;
+		//wfilename_size = (strlen(filename) + 1) * 2;
 		wfilename = vm_malloc(wfilename_size);
+		wfilename = malloc(wfilename_size);
 		sprintf(f_name, "%c:\\%s", vm_get_removable_driver(), file_name);
+	*/
 
 	/* String format conversion */
+	/*
 		vm_ascii_to_ucs2 (wfilename, MRE_STR_SIZE_MAX, filename);
 		vm_ascii_to_ucs2(f_wname, MRE_STR_SIZE_MAX, f_name);
-	
+	*/
 
 	/* Checking: Test that the file exists, we have access to it */
+		/*
 		if (does_this_file_exist(f_name) == FALSE){
 			vm_exit_app();
 		}
@@ -105,6 +110,7 @@ void mre_show_image(VMINT size_ctrl, VMSTR file_name, VMINT *mre_layer_hdl)
 		if (does_this_wfile_exist(wfilename) == FALSE){
 			vm_exit_app();
 		}
+		*/ 
 	
 	/* If using vm4res, we need to initialise the resource. 
 		We don't use resouces */ 
@@ -119,6 +125,7 @@ void mre_show_image(VMINT size_ctrl, VMSTR file_name, VMINT *mre_layer_hdl)
 		vm_file_getfilesize(file_handle, &imgres_size);
 		/* Allocate mem for image resource. calloc 0 initialises, malloc: leaves uninitialised */
 		data = vm_malloc(imgres_size + 1);
+		//data = malloc(imgres_size + 1);
 		file_read_ret = vm_file_read(file_handle, data, imgres_size+1, &nread);
 		if (file_read_ret == 0){
 			printf("\n File Read Error ! \n");

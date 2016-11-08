@@ -160,7 +160,7 @@ Status: In progres
 
 		//TODO: Check this for MRE phones
 		//malloc_pointer = (void *)vm_malloc(size);
-		malloc_pointer = (void *)malloc(size);
+		malloc_pointer = (void *)vm_malloc(size); 
 		return malloc_pointer;
 		
 	}
@@ -771,11 +771,18 @@ Status: In progres
 		//struct nk_image img, int x, int y, const char *text
 		VMUINT8 *buffer;
 		VMUINT16 color;
-		VMWSTR filename;
+		//VMWSTR filename;
 		VMWCHAR display_string[MRE_STR_SIZE_MAX];
 		VMINT res;
 		int ret;
-		
+		/* File name related variables */
+		VMWSTR wfilename;
+		VMINT wfilename_size;
+		VMSTR filename;
+		VMCHAR f_name[MRE_STR_SIZE_MAX + 1];	//Old usage for video filename string
+		VMWCHAR f_wname[MRE_STR_SIZE_MAX + 1]; //Old usage for video filename
+		VMSTR file_name = "tips.gif";
+
 		
 		/*Get the target buffer */
 		buffer = vm_graphic_get_layer_buffer(layer_hdl[0]);
@@ -794,10 +801,27 @@ Status: In progres
 		//VMINT vm_graphic_draw_image_from_file(VM_GDI_HANDLE dest_layer_handle, 
 		//	VMINT x, VMINT y, const VMWSTR filename);
 		//Testing:
+
+		/* Getting em strings ready */
+			//Gotta allocate VMSTR before we do anything to it!
+			filename = vm_malloc(MRE_STR_SIZE_MAX);
+			sprintf (filename, "%c:\\%s", vm_get_removable_driver(), file_name);
+			//Gotta allocate VMWSTR before we do anything to it!
+			wfilename_size = (strlen(filename) + 1) * 2;
+			wfilename = vm_malloc(wfilename_size);
+			sprintf(f_name, "%c:\\%s", vm_get_removable_driver(), file_name);
+
+		/* String format conversion */
+			vm_ascii_to_ucs2 (wfilename, MRE_STR_SIZE_MAX, filename);
+			vm_ascii_to_ucs2(f_wname, MRE_STR_SIZE_MAX, f_name);
+
 		ret = vm_graphic_draw_image_from_file(layer_handle[0],
-			80, 80, "E:\umicon.jpg");
+			//80, 80, "E:\\tips.gif");
+			80, 80, f_wname);
+			//80, 80, "E:\umicon.jpg");
 		if (ret == VM_GDI_SUCCEED){
-			printf("Drew image?");
+			printf("Drew image?"); //Not sure what happens in there.
+			mre_show_image(MRE_GRAPHIC_IMAGE_CURRENT, f_wname, file_name, layer_hdl);
 		}else{
 			printf("Couldn't draw image..");
 		}
@@ -838,8 +862,11 @@ Status: In progres
 	MreFont*
 	nk_mrefont_create(const char *name, int size)
 	{
+		MreFont *font;
+		int obj_size = 1;
 		//MreFont *font = (MreFont*)vm_calloc(1, sizeof(MreFont));
-		MreFont *font = (MreFont*)vm_calloc(1);
+		obj_size = sizeof(MreFont);
+		font = (MreFont*)vm_calloc(obj_size);
 		if (!font){
 			return NULL;
 		}
@@ -1447,7 +1474,8 @@ MRE-Nuklear Components initialisation and return
 struct mre_nk_c * mre_nk_c_create(char *type, char *title, int len, int hovering, char *url, char *thumb){
 	/* Create the component */
 	struct mre_nk_c *cmpnt;
-	cmpnt = (struct mre_nk_c *)malloc(sizeof(struct mre_nk_c));
+	//cmpnt = (struct mre_nk_c *)malloc(sizeof(struct mre_nk_c));
+	cmpnt = (struct mre_nk_c *)vm_malloc(sizeof(struct mre_nk_c));
 	//cmpnt =	malloc(sizeof(struct mre_nk_c));
 	/* Mem allocate the component */
 	//cmpnt = malloc(sizeof(struct mre_nk_c));
@@ -1457,10 +1485,10 @@ struct mre_nk_c * mre_nk_c_create(char *type, char *title, int len, int hovering
 	}else{
 		printf("\nSomething wrong with allocating memory to component");
 	}
-	cmpnt->title = malloc(sizeof(char*)+ strlen(title) + 1);
-	cmpnt->type = malloc(sizeof(char*)+ strlen(type) + 1);
-	cmpnt->hovering = malloc(sizeof(int));
-	cmpnt->len = malloc(sizeof(int));
+	cmpnt->title = vm_malloc(sizeof(char*)+ strlen(title) + 1);
+	cmpnt->type = vm_malloc(sizeof(char*)+ strlen(type) + 1);
+	cmpnt->hovering = vm_malloc(sizeof(int));
+	cmpnt->len = vm_malloc(sizeof(int));
 
 	cmpnt->hovering = 0;
 	//Disabling for now:
@@ -1473,14 +1501,14 @@ struct mre_nk_c * mre_nk_c_create(char *type, char *title, int len, int hovering
 	cmpnt->len = len;
 	
 	if(strcmp(type, "video")>=0){
-		cmpnt->url = malloc(sizeof(char*)+ strlen(url) + 1);
-		cmpnt->thumbnail = malloc(sizeof(char*) + strlen(thumb) + 1);
+		cmpnt->url = vm_malloc(sizeof(char*)+ strlen(url) + 1);
+		cmpnt->thumbnail = vm_malloc(sizeof(char*) + strlen(thumb) + 1);
 		cmpnt->url = url;
 		cmpnt->thumbnail = thumb;
 	}else{
 		//Do it anyway (mem pointer allocation issue)
-		cmpnt->url = malloc(sizeof(char*)+ strlen(url) + 1);
-		cmpnt->thumbnail = malloc(sizeof(char*) + strlen(thumb) + 1);
+		cmpnt->url = vm_malloc(sizeof(char*)+ strlen(url) + 1);
+		cmpnt->thumbnail = vm_malloc(sizeof(char*) + strlen(thumb) + 1);
 		cmpnt->url = url;
 		cmpnt->thumbnail = thumb;
 	}
@@ -1695,8 +1723,15 @@ void initiate_nk_gui(void){
     int running = 1;
     int needs_refresh = 1;
 
+	//Testing 1 
+	test_vm_malloc();
+
+	//Some memory allocation issues in nk_mrefont_create..
 	/*Memory Set and Allocation*/
 	font = nk_mrefont_create("Arial", 12);
+
+	//Testing 2 
+ 	test_vm_malloc();
 
 	/*Initialise the context*/ 
 	ctx = nk_mre_init(font, WINDOW_WIDTH, WINDOW_HEIGHT);
