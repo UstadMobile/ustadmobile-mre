@@ -48,7 +48,7 @@ void goto_previous_page(){
  * RETURNS
  *	none
 *****************************************************************************/
-void mre_show_image(VMINT size_ctrl, VMWSTR f_wname, VMSTR file_name, VMINT *mre_layer_hdl)
+void mre_show_image(VMINT size_ctrl, VMWSTR f_wname, VMSTR file_name, VMINT *mre_layer_hdl, short x, short y)
 {
 	/* local variables */
 	VMUINT8 *res=NULL;
@@ -241,7 +241,7 @@ void mre_show_image(VMINT size_ctrl, VMWSTR f_wname, VMSTR file_name, VMINT *mre
 	}
 
 	image_prop = vm_graphic_get_img_property(img, 1);             
-	target_layer_buf = vm_graphic_get_layer_buffer(mre_layer_hdl[1]); 
+	target_layer_buf = vm_graphic_get_layer_buffer(mre_layer_hdl[0]); 
 	
 	/* controlling expansion, shrinking or no operation on image, moving will be automatically governed as we have already shift x or y position accordingly*/
 	switch (size_ctrl)
@@ -312,7 +312,10 @@ void mre_show_image(VMINT size_ctrl, VMWSTR f_wname, VMSTR file_name, VMINT *mre
 			/* getting image properties*/
 			image_prop = vm_graphic_get_img_property(img, 1);
 			/* image buffer is stored in BLUE buffer*/
-			vm_graphic_blt(target_layer_buf, g_mre_img_x_pos, g_mre_img_y_pos, canvas_buffer, 
+			//vm_graphic_blt(target_layer_buf, g_mre_img_x_pos, g_mre_img_y_pos, canvas_buffer, 
+			//				MRE_SET_SRC_LEFT_TOP_X, MRE_SET_SRC_LEFT_TOP_Y, image_prop->width,
+			//				image_prop->height, 1);
+			vm_graphic_blt(target_layer_buf, x, y, canvas_buffer, 
 							MRE_SET_SRC_LEFT_TOP_X, MRE_SET_SRC_LEFT_TOP_Y, image_prop->width,
 							image_prop->height, 1);
 			break;

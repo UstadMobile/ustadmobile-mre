@@ -253,6 +253,20 @@ void mre_start_menu (void)
 	vm_ascii_to_ucs2 (s, MRE_STR_SIZE_MAX, "7: Nuklear Test");	
 	vm_graphic_textout (buf, mre_get_curr_x (), mre_get_curr_y (), s, wstrlen (s), VM_COLOR_WHITE);
 
+	/* NUM 8 key..*/
+	memset (s, MRE_SET_VAL, MRE_STR_SIZE_MAX);
+	mre_set_curr_y (mre_get_curr_y () + vm_graphic_get_character_height () + MRE_SPACE_BTW_LN);
+	/* converts string into usc2 format to display on the screen */
+	vm_ascii_to_ucs2 (s, MRE_STR_SIZE_MAX, "8: XML Test");	
+	vm_graphic_textout (buf, mre_get_curr_x (), mre_get_curr_y (), s, wstrlen (s), VM_COLOR_WHITE);
+
+	/* NUM 9 key..*/
+	memset (s, MRE_SET_VAL, MRE_STR_SIZE_MAX);
+	mre_set_curr_y (mre_get_curr_y () + vm_graphic_get_character_height () + MRE_SPACE_BTW_LN);
+	/* converts string into usc2 format to display on the screen */
+	vm_ascii_to_ucs2 (s, MRE_STR_SIZE_MAX, "9: ZIP Test");	
+	vm_graphic_textout (buf, mre_get_curr_x (), mre_get_curr_y (), s, wstrlen (s), VM_COLOR_WHITE);
+
     
 	/* flush the screen with data in the buffer*/
 	vm_graphic_flush_layer (layer_hdl, 1);

@@ -309,6 +309,7 @@ VMBOOL does_this_wfile_exist(VMWSTR wfilename){
 		return FALSE;
 	}else{
 		printf("File exists- file handle SUCCESS \n");
+		vm_file_close(test_handle); //MUST CLOSE FILE> MUST CLOSE FILE <MUST CLOSE FILE
 		return TRUE;
 	}
 	return FALSE;
@@ -412,6 +413,30 @@ void mre_dump_to_file(VMCHAR *tcp_buffer, VMINT size, VMINT *layer_hdl)
 }
 
 /*****************************************************************************
+*
+* #define MODE_READ					1
+* #define MODE_WRITE					2
+* #define MODE_CREATE_ALWAYS_WRITE	4
+* #define MODE_APPEND					8
+*****************************************************************************/
+VMFILE mre_open_file(VMSTR file_path, VMUINT mode, VMUINT binary){
+	VMFILE file_handle;
+	VMWSTR wfile_path;
+	VMINT wfile_size;
+
+	wfile_size = (strlen(file_path) + 1) * 2;
+	wfile_path = vm_malloc(wfile_size);
+
+	vm_ascii_to_ucs2 (wfile_path, MRE_STR_SIZE_MAX, file_path);
+
+	/* Opening the file */
+	file_handle = vm_file_open (wfile_path, mode, binary);
+    vm_log_debug("file open handle : %d", file_handle);
+
+	return file_handle;
+}
+
+/*****************************************************************************
  * FUNCTION DEFINITION
  *  mre_read_file
  * DESCRIPTION
@@ -451,4 +476,29 @@ VMINT mre_read_file(VMSTR file_name, VMCHAR  *data){
 	}
     return MRE_SCILENT;
 
+}
+
+/**
+Get file size
+**/
+VMINT get_file_size(VMSTR f_name){
+		VMFILE  file_handle; 
+		//VMCHAR  f_name[MRE_STR_SIZE_MAX + 1] ;
+		VMWCHAR f_wname[MRE_STR_SIZE_MAX + 1];
+		VMCHAR  show_data[MRE_STR_SIZE_MAX + 1 + 10];
+		VMWCHAR default_ucs[MRE_STR_SIZE_MAX + 1];
+		VMCHAR show_text[MRE_STR_SIZE_MAX + 1];
+		VMUINT nread;
+		VMINT file_size;
+		vm_log_debug ("Entering get_file_size function ");
+		//sprintf (f_name, "%c:\\%s", mre_get_drv(), file_name);
+		vm_log_debug("file name : %s", f_name);
+
+		/* string format conversion */
+		vm_ascii_to_ucs2 (f_wname, MRE_STR_SIZE_MAX, f_name);
+
+		file_handle = vm_file_open(f_wname, MODE_WRITE, TRUE); //Mode as Binary cuz image, right?
+		vm_file_getfilesize(file_handle, &file_size);
+		vm_file_close(file_handle); //Don't need the file no more. Closing it.
+		return file_size;
 }

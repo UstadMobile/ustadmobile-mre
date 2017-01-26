@@ -17665,19 +17665,29 @@ NK_API void
 nk_label_colored_wrap(struct nk_context *ctx, const char *str, struct nk_color color)
 {nk_text_wrap_colored(ctx, str, nk_strlen(str), color);}
 
+/* Validates nk_image image object
+	Gets drawing info, bounds,
+	queuing commands for the drawing process */ 
 NK_API void
 nk_image(struct nk_context *ctx, struct nk_image img)
 {
     struct nk_window *win;
     struct nk_rect bounds;
 
+	/* Validates context stuff */
     NK_ASSERT(ctx);
     NK_ASSERT(ctx->current);
     NK_ASSERT(ctx->current->layout);
     if (!ctx || !ctx->current || !ctx->current->layout) return;
 
+	/* Checks if its supposed to be in bounds */ 
     win = ctx->current;
     if (!nk_widget(&bounds, ctx)) return;
+
+	/* Gets the bounds of where the image should be drawn
+		Creates a image drawing command object
+		Adds the command to the command queue 
+	*/ 
     nk_draw_image(&win->buffer, bounds, &img, nk_white);
 }
 

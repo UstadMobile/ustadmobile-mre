@@ -21,9 +21,10 @@
     <category>File</category>
     <category>Audio</category>
     <category>SysFile</category>
+    <category>XML</category>
   </APIAuth>
   <targetconfig>
-    <supportbg>checked</supportbg>
+    <supportbg>unchecked</supportbg>
     <userfont>unchecked</userfont>
     <screenrotate>unchecked</screenrotate>
     <autoadaptable>unchecked</autoadaptable>

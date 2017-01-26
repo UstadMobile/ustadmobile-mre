@@ -176,6 +176,18 @@ void handle_keyevt (VMINT event, VMINT keycode) {
 					initiate_nk_gui();
 					break;
 
+				case VM_KEY_NUM8:
+					//XML Testing
+					vm_log_file("Going to start XML Test\n");
+					test_xml();
+					break;
+
+				case VM_KEY_NUM9:
+					//ZIP Testing
+					vm_log_file("Going to start ZIP Test\n");
+					test_zip();
+					break;
+
 				case VM_KEY_NUM0:
 						vm_log_debug("Going back to Main Menu..");
 						mre_set_fileiocontext (FALSE);

@@ -766,7 +766,7 @@ Status: In progres
 		Called by command: NK_COMMAND_TEXT
 	*/
 	static void
-	nk_mre_draw_image()
+	nk_mre_draw_image(short x, short y, short w, short h)
 	{
 		//struct nk_image img, int x, int y, const char *text
 		VMUINT8 *buffer;
@@ -821,7 +821,7 @@ Status: In progres
 			//80, 80, "E:\umicon.jpg");
 		if (ret == VM_GDI_SUCCEED){
 			printf("Drew image?"); //Not sure what happens in there.
-			mre_show_image(MRE_GRAPHIC_IMAGE_CURRENT, f_wname, file_name, layer_hdl);
+			mre_show_image(MRE_GRAPHIC_IMAGE_CURRENT, f_wname, file_name, layer_hdl, x, y);
 		}else{
 			printf("Couldn't draw image..");
 		}
@@ -1442,12 +1442,14 @@ Status: In progres
 			} break;
 			case NK_COMMAND_RECT_MULTI_COLOR:
 				break;
-			case NK_COMMAND_IMAGE:
+			case NK_COMMAND_IMAGE: {
 				// Get the image
 				//nk_mre_draw_image(nk_image_img, pos_x, pos_y, image_file_path);
+				const struct nk_command_image *i = (const struct nk_command_image *)cmd;
 				printf("Finally, lets draw some pictures!");
-				nk_mre_draw_image();
-				break;
+				//nk_mre_draw_image(i->x, i->y, i->w, i->h, i->img.thumb .. );
+				nk_mre_draw_image(i->x, i->y, i->w, i->h);
+			} break;
 			case NK_COMMAND_ARC:
 			case NK_COMMAND_ARC_FILLED:
 			default: break;
@@ -1620,18 +1622,37 @@ void declare_view(struct mre_nk_c** ptr_cmpts){
 				}
 
 				if(ptr_cmpts[i]->type == "video"){
-					/*	Need an image for thumbnail
+					/*	TODO: 
 						Need a title to fill it in
+						Need an image for thumbnail
 						Need a play button 
 						Need the video file path 
 						Style: Center, Wide, 80%
 						Hover should highlight with text "Click to play"
-						Handle what happens when you come back from the video
+						Handle what happens when you come back from the video	
 					*/ 
+
+					/* Set Text Title on Top */
 					nk_text(ctx, ptr_cmpts[i]->title,
 						strlen(ptr_cmpts[i]->title),NK_TEXT_ALIGN_CENTERED);
-					// Set image
+					/*nk_text_wrap(ctx, 
+						ptr_cmpts[i]->title,
+						strlen(ptr_cmpts[i]->title)
+						);
+					*/
+
+					/* Get the video thumbnail */
+
+
+					/* Set Image
+						Here is where we set the image object with an image id 
+						That handle and other default values are 
+					*/
 					img = nk_image_id(1);
+					/* Validates nk_image image object
+						Checks bounds, Adds Image object to command
+						queuing commands for the drawing process 
+					*/ 
 					nk_image(ctx, img);
 					
 				}
@@ -1722,16 +1743,10 @@ void initiate_nk_gui(void){
     /* Variable declaration that are relevant to Implementation*/
     int running = 1;
     int needs_refresh = 1;
-
-	//Testing 1 
-	test_vm_malloc();
-
 	//Some memory allocation issues in nk_mrefont_create..
 	/*Memory Set and Allocation*/
 	font = nk_mrefont_create("Arial", 12);
 
-	//Testing 2 
- 	test_vm_malloc();
 
 	/*Initialise the context*/ 
 	ctx = nk_mre_init(font, WINDOW_WIDTH, WINDOW_HEIGHT);

@@ -48,6 +48,8 @@ void play_video_native_player(VMSTR filename);
 
 void video_open_callback(VMINT ret, vm_video_info_struct *video_info);
 
+void video_open_callback_get_thumbnail(VMINT ret, vm_video_info_struct *video_info);
+
 vm_video_open_result_callback video_open_callback2( VMINT ret, vm_video_info_struct *video_info);
 
 vm_video_open_result_callback open_video_callback(void);

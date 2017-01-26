@@ -133,3 +133,14 @@ void mre_dump_to_file(VMCHAR *tcp_buffer, VMINT size, VMINT *layer_hdl);
  *	result                  [OUT]     some code for error and success
 *****************************************************************************/ 
 VMINT mre_read_file(VMSTR file_name, VMCHAR *data);
+
+
+/**
+Get file size 
+**/
+VMINT mre_get_file_size(VMSTR file_name);
+
+/**
+Open file and return the handle
+**/
+VMFILE mre_open_file(VMSTR file_path, VMUINT mode, VMUINT binary);

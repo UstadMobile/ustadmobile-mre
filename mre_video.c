@@ -239,19 +239,11 @@ void play_video_native_player(VMSTR filename)
 	VMINT width = 240;
 	VMINT height = 320;
 	VMINT trans_color = 1;
-	//VM_GDI_RESULT vm_grl_result;
 	VMINT count = vm_graphic_get_blt_layer_count();	
 	VMUINT16 repeat_count = 2;
 	VMINT is_play_audio = 1;
 	VMINT audio_path = 1;
-	//VMINT play_result;
-	//VMINT file_open_result;
 	VMINT test_handle;
-	//VMINT g_flush_result;
-	//VMINT v_seek_result;
-	//VMINT g_layer_delete_result;
-	//VMINT v_stop_result;
-	//VMINT v_close_result;
 	VMINT v_play_by_filepath_result; 
 	VMSTR video_filename_string;
 	VMWSTR video_filename;
@@ -320,6 +312,77 @@ void play_video_native_player(VMSTR filename)
 	vm_log_file("\n");
 	
 }
+
+
+/***
+Get Thumbnail from Video:
+Gets middle frame's frame -> pikchar
+****/ 
+void get_video_thumbnail(VMWSTR video_filename, VMWSTR video_thumbnail_filename){
+	VMINT x = 0;
+	VMINT y = 0;
+	VMINT width = 240;
+	VMINT height = 320;
+	VMINT trans_color = 1;
+	VMINT count = vm_graphic_get_blt_layer_count();	
+	VMUINT16 repeat_count = 2;
+	VMINT is_play_audio = 1;
+	VMINT audio_path = 1;
+	VMINT test_handle;
+	VMINT v_play_by_filepath_result; 
+	VMSTR video_filename_string;
+	VMINT video_filename_size;
+	VMCHAR video_filepath[MRE_STR_SIZE_MAX + 1];
+	vm_video_open_result_callback orc = video_open_callback;	
+	vm_video_finish_callback fc = NULL;
+	VMCHAR f_name[MRE_STR_SIZE_MAX + 1];	//Old usage for video filename string
+	VMWCHAR f_wname[MRE_STR_SIZE_MAX + 1]; //Old usage for video filename
+	VMCHAR log_message[MRE_STR_SIZE_MAX + 1];
+	VMINT file_open_result;
+	VMINT v_seek_result;
+	VMINT vm_video_snapshot_result;	
+	vm_video_open_result_callback orc_middle_time = video_open_callback_get_thumbnail;
+
+	printf("\n Getting Video file's thumbnail .. ");
+
+	//5. Opening a file to play 
+	file_open_result = vm_video_open_file((const VMWSTR)video_filename, orc_middle_time);
+	
+	//6. Seek first video frame or required video frame in time
+	//v_seek_result = vm_video_seek_and_getframe(time_middle, layer_handle[0]);
+	
+	vm_video_snapshot_result = vm_video_snapshot(layer_handle[0], video_thumbnail_filename);
+
+}
+
+//typedef void (*vm_video_open_result_callback)(VMINT ret, vm_video_info_struct *video_info);
+void video_open_callback_get_thumbnail( VMINT ret, vm_video_info_struct *video_info){
+	VMUINT64 time_middle;
+	VMINT v_seek_result;
+	VMINT layer_handle[1];
+
+	layer_handle[0] = 0;
+	printf("\nIn video open callback..");
+	time_middle = (VMUINT64) video_info->total_time_duration / 2;
+	printf("\nGot middle time..");
+
+	//6. Seek first video frame or required video frame in time
+	//   parameters : VMUINT64 time, VMUINT player_layer_handle
+	v_seek_result = vm_video_seek_and_getframe(time_middle, layer_handle[0]);
+
+		if(v_seek_result == VM_VIDEO_SUCCESS){
+			vm_log_file("Video seek SUCCESS\n");
+		}else if(v_seek_result == VM_VIDEO_FAILED){
+			vm_log_file("Video seek Failure!\n");
+		}else{
+			vm_log_file("Video seek unknown Failure!\n");
+		}
+
+	
+
+}
+
+
 
 /*
 static vm_video_open_result_callback open_video_callback(void){	

@@ -86,7 +86,7 @@ share.h Shared global variables
 #define MRE_IMG_ANI_FIRST_FRAME (1)
 #define MRE_SET_IMG_ROT (90)
 #define MRE_WHOLE_ROT (360)
-#define MRE_SPACE_BTW_LN (6)
+//#define MRE_SPACE_BTW_LN (6) //Already defined above
 
 /////////////////////////////NUKLEAR SPECIFIC STUFF///////////////////////////
 /* Preprocessor macros */
@@ -126,6 +126,7 @@ share.h Shared global variables
 #include "vmvideo.h"
 #include "vmres.h"
 #include "vmtimer.h"
+#include "vmxml.h"
 
 /* Global Variables */
 //I think its a better idea to make a seperate header file for global variables..
