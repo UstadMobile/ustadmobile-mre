@@ -17,31 +17,7 @@
  *  Varuna Singh
  * 
  ****************************************************************************/
-#ifndef _VRE_APP_WIZARDTEMPLATE_
-#define	_VRE_APP_WIZARDTEMPLATE_
 
-//#include "share.h"
-
-/*****************************************************************************
-GLOBAL VARIABLES
-*****************************************************************************/
-/*
-//Moved to share.h
-VMINT	layer_hdl[1];			//layer handle array.
-VMINT	g_mre_curr_x;
-VMINT	g_mre_curr_y;
-VMWSTR	g_mre_textbox_text;
-VMINT	g_mre_textbox_state;
-VMINT	g_mre_subcontext;
-VMINT	g_mre_drv;
-VMINT	g_mre_fileiocontext;	//In file io context
-*/
-
-
-
-/* ---------------------------------------------------------------------------
- * Functions
- * ------------------------------------------------------------------------ */
 
 /*****************************************************************************
  * FUNCTION
@@ -82,33 +58,6 @@ void mre_set_fileiocontext(VMINT val);
 *****************************************************************************/
 VMINT mre_get_fileiosubcontext(void);
 
-
-/*****************************************************************************
- * FUNCTION
- *  mre_create_file
- * DESCRIPTION
- *  This function creates a file with given name in a drive set earlier 
- * PARAMETERS
- *  file name				[IN]      name of file
- * RETURNS
- *	result                  [OUT]     some code for error and success   
-*****************************************************************************/
-//VMINT mre_create_file(VMSTR file_name);
-
-
-
-/*****************************************************************************
- * FUNCTION
- *  mre_write_file
- * DESCRIPTION
- *  This function writes on the file given 
- * PARAMETERS
- *  file name				[IN]      name of file
- * RETURNS
- *	result                  [OUT]     some code for error and success   
-*****************************************************************************/
-//VMINT mre_write_file(VMSTR file_name);
-
 /*****************************************************************************
  * FUNCTION
  *  mre_textbox_handle
@@ -138,20 +87,6 @@ void mre_io_submenu(void);
 
 /*****************************************************************************
  * FUNCTION
- *  mre_read_file_display
- * DESCRIPTION
- *  This function displays file's content on display text box 
- *  which is actually input textbox 
- * PARAMETERS
- *  file name				[IN]      name of file
- * RETURNS
- *	result                  [OUT]     some code for error and success 
- TODO: Remove when OK
-*****************************************************************************/
-//VMINT mre_display_file_contents(VMSTR file_name);
-
-/*****************************************************************************
- * FUNCTION
  *  mre_file_result
  * DESCRIPTION
  *  This function decides if error found then displays error 
@@ -163,18 +98,6 @@ void mre_io_submenu(void);
  DISPlAY 
 *****************************************************************************/
 void mre_file_result(VMINT result);
-
-/*****************************************************************************
- * FUNCTION
- *  mre_check_modify_time
- * DESCRIPTION
- *  This function displays file's modified time 
- * PARAMETERS
- *  file name				[IN]      name of file
- * RETURNS
- *	result                  [OUT]     some code for error and success 
-*****************************************************************************/
-//VMINT mre_check_modify_time(VMSTR file_name);
 
 /*****************************************************************************
  * FUNCTION
@@ -301,7 +224,6 @@ void mre_set_global_data (void);
  *  x			         [IN]      current x cordinate
  * RETURNS
  *	none
- TODO: Maybe Views
 *****************************************************************************/
 void mre_set_curr_x (VMINT x);
 
@@ -314,7 +236,6 @@ void mre_set_curr_x (VMINT x);
  *  none
  * RETURNS
  *  g_mre_curr_x        [OUT]      current x cordinate
- TODO: Views?
 *****************************************************************************/
 VMINT mre_get_curr_x (void);
 
@@ -327,7 +248,6 @@ VMINT mre_get_curr_x (void);
  *  y			         [IN]      current y cordinate
  * RETURNS
  *	none
- TODO: Views?
 *****************************************************************************/
 void mre_set_curr_y (VMINT y);
 
@@ -340,7 +260,6 @@ void mre_set_curr_y (VMINT y);
  *  none
  * RETURNS
  *  g_mre_curr_y         [OUT]      current y cordinate
- TODO: Views ?
 *****************************************************************************/
 VMINT mre_get_curr_y (void);
 
@@ -353,59 +272,7 @@ VMINT mre_get_curr_y (void);
  *  input_type			  [IN]      type of input textbox
  * RETURNS
  *	none
- TODO: Views?
 *****************************************************************************/
 VMINT mre_show_input_textbox(VMINT input_type);
-
-/*****************************************************************************
- * FUNCTION
- *  mre_write_line_to_file
- * DESCRIPTION
- *  This function writes a VMSTR line to a file 
- * PARAMETERS
- *  VMSTR file_name			[IN]		the file name in VMSTR
- *	VMSTR line				[IN]		the line to be written in VMSTR
- * RETURNS
- *	VMINT	MRE_SCILENT if success; MRE_FILE_NOT_WRITTEN if  not
-*****************************************************************************/
-//VMINT mre_write_line_to_file(VMSTR file_name, VMSTR line);
-
-/*****************************************************************************
- * FUNCTION
- *  vm_log_file
- * DESCRIPTION
- *  This function logs a message to a file
- * PARAMETERS
- *  VMSTR message			[IN]		the message log line
- * RETURNS
- *	VMINT	MRE_SCILENT if success; MRE_FILE_NOT_WRITTEN if  not
-*****************************************************************************/
-//VMINT vm_log_file(VMSTR message);
-
-/*****************************************************************************
- * FUNCTION
- *  does_this_file_exist
- * DESCRIPTION
- *  Checks if the givenn filename exists 
- * PARAMETERS
- *  VMSTR filename			  [IN]      filename in VMSTR
- * RETURNS
- *	VMBOOL TRUE if file exists or FALSE if it doesnt
-*****************************************************************************/
-//VMBOOL does_this_file_exist(VMSTR filename);
-
-/*****************************************************************************
- * FUNCTION
- *  does_this_wfile_exist
- * DESCRIPTION
- *  Checks if the given filename(in VMWSTR) exists 
- * PARAMETERS
- *  VMWSTR wfilename			  [IN]      filename in VMWSTR
- * RETURNS
- *	VMBOOL TRUE if file exists or FALSE if it doesnt
-*****************************************************************************/
-//VMBOOL does_this_wfile_exist(VMWSTR wfilename);
-
-#endif
 
 

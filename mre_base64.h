@@ -1,7 +1,6 @@
 /* 
-mre_base64.h Base64 related method header file
+	MRE Base: mre_base64.h Base64 related method header file. Work In Progress.
 */
-
 
 
 //base64

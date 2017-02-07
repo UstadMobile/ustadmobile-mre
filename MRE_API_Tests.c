@@ -15,7 +15,9 @@ MRE_API_Tests.c : Main file for Testing
 #include "mre_video.h"
 #include "mre_views.h"
 #include "ResID\ResID.h"
-#include "nuklear.h"
+//testing: Removing
+//#include "nuklear.h"
+//#include "mre_components.h"
 #include "nuklear_mre.h"
 #include "mre_menu.h"
 #include "mre_base64.h"
@@ -74,21 +76,21 @@ void vm_main(void)
 		change it. I could mix them both into one event handler but we already tested the API's. Now its time
 		to test nuklear and make the application, its views around this.
 	*/
-	/*
+	///*
 	// For Nuklear Testing:
 	vm_reg_sysevt_callback (nk_mre_handle_sys_event); //looks at implementation event handler (does thesame thing)
 	vm_reg_keyboard_callback (nk_mre_handle_key_event);	//Keyboard callback
 	vm_reg_pen_callback (handle_penevt);	//Pen callback - not really needed
 	//initiate_nuklear_gui(); //Disabling, the method: nk_mre_handle_sys_event will call it.
-	*/
+	//*/
 	
-	///*
+	/*
 	//For API Testing:
     vm_mul_lang_set_lang (VM_LANG_ENG);
 	vm_reg_sysevt_callback (handle_sysevt);
  	vm_reg_keyboard_callback (handle_keyevt);
 	vm_reg_pen_callback (handle_penevt);
-	//*/ 
+	*/ 
 }
 
 //end. 

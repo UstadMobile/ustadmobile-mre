@@ -1,11 +1,13 @@
 /* 
-mre_menu.h Menu specific functions go here. 
-	Are these views ? In a testing sense, yes. 
-	But are they nuklear GUI interactive views? No. 
-	Which is why I've made this for now..
-*/
+	mre_menu.h Menu specific functions go here. 
 
-//#include "share.h"
+	The Menus are the menus that we used for testing MRE APIS. 
+	This is the UI for test cases essentially.
+
+		Are these views ? In a testing sense, yes. 
+		But are they nuklear GUI interactive views? No. 
+		Which is why I've made this.
+*/
 
 /* Input Types */ 
 typedef enum mre_iput_type_textbox
@@ -33,6 +35,16 @@ void mre_set_httpcontext (VMINT val)
     g_mre_httpcontext = val;
 }
 
+/*****************************************************************************
+ * FUNCTION
+ *  mre_set_socketcontext
+ * DESCRIPTION
+ *  This function sets flag for context for context/io test
+ * PARAMETERS
+ *  val			         [IN]      it is true or false
+ * RETURNS
+ *	none
+*****************************************************************************/
 void mre_set_socketcontext (VMINT val)
 {
 	g_mre_socketcontext = val;
@@ -48,7 +60,6 @@ void mre_set_socketcontext (VMINT val)
  * RETURNS
  *	g_mre_httpcontext    [OUT]      it is true or false
 *****************************************************************************/
-
 VMINT mre_get_httpcontext (void)
 {
     return g_mre_httpcontext;
@@ -83,6 +94,7 @@ void mre_set_fileiocontext (VMINT val)
 {
     g_mre_fileiocontext = val;
 }
+
 /*****************************************************************************
  * FUNCTION
  *  mre_get_fileiocontext
@@ -93,7 +105,6 @@ void mre_set_fileiocontext (VMINT val)
  * RETURNS
  *	g_mre_subcontext    [OUT]      it is true or false
 *****************************************************************************/
-
 VMINT mre_get_fileiocontext (void)
 {
     return g_mre_fileiocontext;
@@ -124,7 +135,6 @@ void mre_set_subcontext (VMINT val)
  * RETURNS
  *	g_mre_subcontext    [OUT]      it is true or false
 *****************************************************************************/
-
 VMINT mre_get_subcontext (void)
 {
     return g_mre_subcontext;
@@ -485,7 +495,6 @@ void mre_start_io_menu (void)
  * RETURNS
  *	none
 *****************************************************************************/
-
 void mre_io_submenu (void)
 {
     /* it displays menu item list on the scrren */

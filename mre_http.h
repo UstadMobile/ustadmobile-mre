@@ -1,4 +1,11 @@
-//#include "share.h"
+/*
+
+	MRE HTTP : Header File - mre_http.h
+	The MRE Http file does HTTP network stuff.
+
+	Author: Varuna Singh, UstadMobile
+
+*/ 
 
 /*****************************************************************************
  * FUNCTION
@@ -35,7 +42,6 @@ void mre_set_socketcontext(VMINT val);
  *	g_mre_httpsubcontext    [OUT]      it is true or false
 *****************************************************************************/
 VMINT mre_get_httpcontext(void);
-
 
 /*****************************************************************************
  * FUNCTION
@@ -96,20 +102,6 @@ void mre_start_socket_menu(void);
 
 /*****************************************************************************
  * FUNCTION
- *  draw_http_result_string
- * DESCRIPTION
- *  This function displayes state of http connection and response head, body on screen
- * PARAMETERS
- *  none
- * RETURNS
- *	none
-
- Replaced by mre_show_text_coordinates(int x, int y, VMSTR ascii_string);
-*****************************************************************************/
-//static void draw_http_result_string(int x, int y, VMSTR ascii_string);
-
-/*****************************************************************************
- * FUNCTION
  *  connect_http
  * DESCRIPTION
  *  This function connects http_connection
@@ -130,11 +122,13 @@ void connect_http(void);
  * PARAMETERS
  *  state          [IN]       state of http connection
  *  param          [IN]       
- *  session        [IN]       structure variable containing http_session other parameters
+ *  session        [IN]       structure variable containing http_session 
+							  other parameters
  * RETURNS
  *	none
 *****************************************************************************/
 static void http_state_notify_cb(VMINT state, VMINT param, void* session);
+
 /*****************************************************************************
  * FUNCTION
  *  http_hook_cb
@@ -142,7 +136,8 @@ static void http_state_notify_cb(VMINT state, VMINT param, void* session);
  *  This function will receive response of http connection as a structure
  * PARAMETERS
  *  bResponse      [IN]       to ensure response has been arrived
- *  session        [IN]       structure variable containing http_session other parameters
+ *  session        [IN]       structure variable containing http_session 
+ *							  other parameters
  * RETURNS
  *	none This HAS TO BE VOID for it to work and get the session properly!
 *****************************************************************************/
@@ -152,10 +147,12 @@ static void http_hook_cb(VMINT bResponse, void* pSession);
  * FUNCTION
  *  http_request_hook_cb
  * DESCRIPTION
- *  This function will receive response of make_http_request connection as a structure
+ *  This function will receive response of make_http_request connection as a 
+ *	structure
  * PARAMETERS
  *  bResponse      [IN]       to ensure response has been arrived
- *  session        [IN]       structure variable containing http_session other parameters
+ *  session        [IN]       structure variable containing http_session 
+ *							  other parameters
  * RETURNS
  *	none This HAS TO BE VOID for it to work and get the session properly!
 *****************************************************************************/
@@ -163,16 +160,32 @@ static void http_request_hook_cb(VMINT bResponse, void* pSession);
 
 /*****************************************************************************
  * FUNCTION
- *  vertical_scrolling_text
+ *  make_http_request
  * DESCRIPTION
- *  This function displays results of http conne
+ *  This function will Make the http request
  * PARAMETERS
- *  ascii_string      [IN]           - contains display string
+ *  method					VMSTR			[IN]		Http request type
+ *	url						VMSTR			[IN]		url of the request
+ *	headers[]				http_head_t		[IN]		http headers
+ *	headers_count			int				[IN]		total number of headers
+ *	post_parameters[]		http_head_t		[IN]		Post parameters
+ *	post_parameters_count	int				[IN]		Post parameters count
  * RETURNS
  *	none
 *****************************************************************************/
-//void vertical_scrolling_text(VMSTR ascii_string);
+void make_http_request(VMSTR method, VMSTR url, http_head_t headers[], 
+					   int headers_count, http_head_t post_parameters[], 
+					   int post_parameters_count);
 
-void make_http_request(VMSTR method, VMSTR url, http_head_t headers[], int headers_count, http_head_t post_parameters[], int post_parameters_count);
-
+/*****************************************************************************
+ * FUNCTION
+ *  um_login_controller
+ * DESCRIPTION
+ *  This function is just a placeholder. Supposed to login. Should move it 
+ * PARAMETERS
+ *  username		[IN]		VMSTR		Username
+ *  password		[IN]		VMSTR		Password
+ * RETURNS
+ *	none YET
+*****************************************************************************/
 void um_login_controller(VMSTR username, VMSTR password);

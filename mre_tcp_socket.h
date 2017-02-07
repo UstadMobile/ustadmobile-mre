@@ -1,8 +1,7 @@
 /*
-mre_tcp_socket.h Tcp socket stuff's Header file
+	mre_tcp_socket.h Tcp socket stuff's Header file
 */
 
-//#include "share.h"
 
 /*****************************************************************************
  * FUNCTION

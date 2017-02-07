@@ -1,8 +1,11 @@
 /*
-Nuklear MRE Implementation
-Author: varunasingh
-Status: In progres
+	Nuklear MRE Implementation: nuklear_mre.h 
+	Author: Varuna Singh, UstadMobile
 */
+
+#include "mre_components.h"
+#include "nuklear.h"
+
 
 /* ==============================================================
  *								API
@@ -100,8 +103,9 @@ Status: In progres
 	/*
 	MRE-Nuklear Components
 	Components used to draw
+	TODO: Moved to mre_components. Check, Test and Delete this.
 	*/
-	struct mre_nk_c {
+	struct mre_nk_c_old {
 		int id;
 		char *type;
 		char *title;
@@ -114,14 +118,16 @@ Status: In progres
 		char *thumbnail;
 	};
 
-	/* MRE View Properties */ 
-	struct mre_view_p{
+	/* MRE View Properties 
+		TODO: Moved to mre_components. Check, Test and Delete this.
+	*/ 
+	struct mre_view_p_old{
 		int hoverable_counter;
 		int hoverable_items;
 		struct mre_nk_c **components;
 		//struct mre_nk_c * components;
 		int components_count;
-	}mre_view;
+	}mre_view_old;
 
 
 	/*********************
@@ -761,19 +767,19 @@ Status: In progres
 	}
 
 	/*
-		Draw Text
-		Draws text
-		Called by command: NK_COMMAND_TEXT
+		Draw Default Image
+		Draws defaut image. Used in testing
+		Called by command: NK_COMMAND_IMAGE
 	*/
 	static void
-	nk_mre_draw_image(short x, short y, short w, short h)
+	nk_mre_draw_image_default(short x, short y, short w, short h)
 	{
 		//struct nk_image img, int x, int y, const char *text
 		VMUINT8 *buffer;
-		VMUINT16 color;
+		//VMUINT16 color;
 		//VMWSTR filename;
-		VMWCHAR display_string[MRE_STR_SIZE_MAX];
-		VMINT res;
+		//VMWCHAR display_string[MRE_STR_SIZE_MAX];
+		//VMINT res;
 		int ret;
 		/* File name related variables */
 		VMWSTR wfilename;
@@ -827,6 +833,89 @@ Status: In progres
 		}
 
 	}
+
+	/*
+		Draw Image
+		Draws image set in image object
+		Called by command: NK_COMMAND_IMAGE
+	*/
+	static void
+	nk_mre_draw_image(short x, short y, short w, short h, struct nk_image img)
+	{
+		//struct nk_image img, int x, int y, const char *text
+		VMUINT8 *buffer;
+		//VMUINT16 color;
+		//VMWSTR filename;
+		//VMWCHAR display_string[MRE_STR_SIZE_MAX];
+		//VMINT res;
+		int ret;
+		/* File name related variables */
+		//VMWSTR wfilename;
+		//VMINT wfilename_size;
+		//VMSTR filename;
+		//VMCHAR f_name[MRE_STR_SIZE_MAX + 1];	//Old usage for video filename string
+		//VMWCHAR f_wname[MRE_STR_SIZE_MAX + 1]; //Old usage for video filename
+		VMWCHAR image_wpath[MRE_STR_SIZE_MAX +1];
+		//VMSTR file_name = "tips.gif";
+		VMSTR file_name;
+
+		/* Play with nk_image object */
+		
+		
+		/*Get the target buffer */
+		buffer = vm_graphic_get_layer_buffer(layer_hdl[0]);
+
+		/* 
+			Gotta flush:
+			Flush updates the LCD 
+		*/
+		//vm_graphic_flush_layer(layer_hdl, 1);
+
+		/* Draw the PIKCHAAA */ 
+		/* Notes:
+			VM_GDI_HANDlE is basically VMINT
+
+		*/
+		//VMINT vm_graphic_draw_image_from_file(VM_GDI_HANDLE dest_layer_handle, 
+		//	VMINT x, VMINT y, const VMWSTR filename);
+
+		//Testing:
+		/* Getting em strings ready */
+			/* 
+			//Gotta allocate VMSTR before we do anything to it!
+			filename = vm_malloc(MRE_STR_SIZE_MAX);
+			sprintf (filename, "%c:\\%s", vm_get_removable_driver(), file_name);
+			//Gotta allocate VMWSTR before we do anything to it!
+			wfilename_size = (strlen(filename) + 1) * 2;
+			wfilename = vm_malloc(wfilename_size);
+			sprintf(f_name, "%c:\\%s", vm_get_removable_driver(), file_name);
+			*/
+
+		/* String format conversion */
+			//vm_ascii_to_ucs2 (wfilename, MRE_STR_SIZE_MAX, filename);
+			//vm_ascii_to_ucs2(f_wname, MRE_STR_SIZE_MAX, f_name);
+			vm_ascii_to_ucs2(image_wpath, MRE_STR_SIZE_MAX, img.path);
+
+		/* Get filename from the path 
+			TODO: This
+		*/
+		file_name = "tips.gif";
+
+		ret = vm_graphic_draw_image_from_file(layer_handle[0],
+			//80, 80, "E:\umicon.jpg");
+			//80, 80, "E:\\tips.gif");
+			//80, 80, f_wname);
+			10, 10, image_wpath); //Ideally it should be x,y //Update: doesnt do anything
+			
+		if (ret == VM_GDI_SUCCEED){
+			printf("Drew image?"); //Not sure what happens in there.
+			mre_show_image(MRE_GRAPHIC_IMAGE_CURRENT, image_wpath, file_name, layer_hdl, x, y);
+		}else{
+			printf("Couldn't draw image..");
+		}
+
+	}
+
 
 	/*
 		Clear It all
@@ -1111,42 +1200,35 @@ Status: In progres
 			//int ctrl = GetKeyState(VK_CONTROL) & (1 << 15);
 			int ctrl = VM_KEY_CTRL;
 
-			switch (keycode)
+			switch (keycode) 
 			{
 				case VM_KEY_SHIFT:	//Right, Left is all one in MRE
 					nk_input_key(&mre.ctx, NK_KEY_SHIFT, down);
-					//return 1;
 
 				case VM_KEY_DEL:
 					nk_input_key(&mre.ctx, NK_KEY_DEL, down);
-					//return 1;
 
 				case VM_KEY_OK: //OK/Enter should do the same, Yeah?
 				case VM_KEY_QWERTY_ENTER:
 					nk_input_key(&mre.ctx, NK_KEY_ENTER, down);
-					//return 1;
 
 				case VM_KEY_TAB:
 					nk_input_key(&mre.ctx, NK_KEY_TAB, down);
-					//return 1;
 
 				case VM_KEY_LEFT:
 					if (ctrl)
 						nk_input_key(&mre.ctx, NK_KEY_TEXT_WORD_LEFT, down);
 					else
 						nk_input_key(&mre.ctx, NK_KEY_LEFT, down);
-					//return 1;
 
 				case VM_KEY_RIGHT:
 					if (ctrl)
 						nk_input_key(&mre.ctx, NK_KEY_TEXT_WORD_RIGHT, down);
 					else
 						nk_input_key(&mre.ctx, NK_KEY_RIGHT, down);
-					//return 1;
 				case VM_KEY_RIGHT_SOFTKEY: //Should be the same right?
 				case VM_KEY_BACK:
 					nk_input_key(&mre.ctx, NK_KEY_BACKSPACE, down);
-					//return 1;
 
 				/*
 				case VK_HOME:
@@ -1168,8 +1250,6 @@ Status: In progres
 					}
 
 					update_gui();
-					//update_gui();
-					//return 1;
 					break;
 
 				case VM_KEY_UP:
@@ -1180,20 +1260,14 @@ Status: In progres
 						mre_view.hoverable_counter = 0;
 					}
 					update_gui();
-					//update_gui();
-					//return 1;
 					break;
 
 				case VM_KEY_POUND:
-					//#
-					//Testing:
 					set_test2_view();
 
 					update_gui();
 					break;
 				case VM_KEY_STAR:
-					//*
-					//Testing:
 					set_test_view();
 
 					update_gui();
@@ -1202,40 +1276,34 @@ Status: In progres
 				case VM_KEY_C:
 					if (ctrl) {
 						nk_input_key(&mre.ctx, NK_KEY_COPY, down);
-						//return 1;
 					}
 					break;
 
 				case VM_KEY_V:
 					if (ctrl) {
 						nk_input_key(&mre.ctx, NK_KEY_PASTE, down);
-						//return 1;
 					}
 					break;
 
 				case VM_KEY_X:
 					if (ctrl) {
 						nk_input_key(&mre.ctx, NK_KEY_CUT, down);
-						//return 1;
 					}
 					break;
 
 				case VM_KEY_Z:
 					if (ctrl) {
 						nk_input_key(&mre.ctx, NK_KEY_TEXT_UNDO, down);
-						//return 1;
 					}
 					break;
 
 				case VM_KEY_R:
 					if (ctrl) {
 						nk_input_key(&mre.ctx, NK_KEY_TEXT_REDO, down);
-						//return 1;
 					}
 					break;
 			}
 
-			//return 0;
 		}
 
 	}
@@ -1243,7 +1311,7 @@ Status: In progres
 	/*
 		Handles Key Press events
 		Declared in header file
-		Initialised at init
+		Initialised at init 
 	*/
 	NK_API void
 	nk_mre_handle_sys_event	(VMINT message, VMINT param){
@@ -1443,12 +1511,24 @@ Status: In progres
 			case NK_COMMAND_RECT_MULTI_COLOR:
 				break;
 			case NK_COMMAND_IMAGE: {
-				// Get the image
-				//nk_mre_draw_image(nk_image_img, pos_x, pos_y, image_file_path);
+				/* Get the image from the command and image object
+					nk_mre_draw_image(nk_image_img, pos_x, pos_y, image_file_path);
+				So we can have something like this: 
+					nk_mre_draw_image(i->x, i->y, i->w, i->h, i->img.thumb .. );
+				*/ 
 				const struct nk_command_image *i = (const struct nk_command_image *)cmd;
 				printf("Finally, lets draw some pictures!");
-				//nk_mre_draw_image(i->x, i->y, i->w, i->h, i->img.thumb .. );
-				nk_mre_draw_image(i->x, i->y, i->w, i->h);
+				
+				//nk_mre_draw_image_default(i->x, i->y, i->w, i->h); //default testing 
+
+				/* 
+				nk_image: 
+					struct nk_image {nk_handle handle;unsigned short w,h;unsigned short region[4];};
+				nk_handle:
+					typedef union {void *ptr; int id;} nk_handle;
+				*/ 
+				nk_mre_draw_image(i->x, i->y, i->w, i->h, i->img);
+				printf("Drew the image. Flushing..");
 			} break;
 			case NK_COMMAND_ARC:
 			case NK_COMMAND_ARC_FILLED:
@@ -1540,7 +1620,8 @@ struct mre_nk_c * mre_nk_c_create(char *type, char *title, int len, int hovering
 	TODO: Maybe make it take void and look at 
 	mre_view.component object.. 
 */
-void declare_view(struct mre_nk_c** ptr_cmpts){
+void declare_view(struct mre_nk_c** ptr_cmpts){ 
+	//TODO: Check this. Changed from struct mre_nk_c** ptr_cmpts to mre_nk_c* ptr_cmpts
 	/*Declare context*/
     struct nk_context *ctx;
 
@@ -1556,15 +1637,19 @@ void declare_view(struct mre_nk_c** ptr_cmpts){
 			NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_TITLE))
 			//NK_WINDOW_SCALABLE|NK_WINDOW_CLOSABLE|NK_WINDOW_MINIMIZABLE
 		{
-			char *title;
+			char *title; //Not using it right now..
 			enum {EASY, HARD};
 			static int op = EASY;
 			static int property = 20;
 			int i = 0;
 			enum nk_button_behavior button_behavior;
 			struct nk_image img;
+			char *image_path;
+			static char text[9][64];
+			static int text_len[9];	
 
 			printf("Testing nk_text_wrap\n");
+			//title="";
 			//33 is the height of text 
 			//33 is font size!
 			//height = number of lines * 30
@@ -1584,12 +1669,14 @@ void declare_view(struct mre_nk_c** ptr_cmpts){
 				//printf("\nComponent %d's title: %s",i,ptr_cmpts[i]->title);
 				
 				if(ptr_cmpts[i]->type == "button"){
+				//if(ptr_cmpts[i].type == "button"){
 
 					/* Button layout */
 					nk_layout_row_static(ctx, 30, 80, 1);
 
 					button_behavior = NK_BUTTON_DEFAULT;
 					if (ptr_cmpts[i]->hovering == 1){
+					//if (ptr_cmpts[i].hovering == 1){
 						//enum nk_button_behavior {NK_BUTTON_DEFAULT, NK_BUTTON_REPEATER, NK_BUTTON_HOVER};
 						button_behavior = NK_BUTTON_HOVER;
 					}
@@ -1598,13 +1685,42 @@ void declare_view(struct mre_nk_c** ptr_cmpts){
 					}else{
 						button_behavior = NK_BUTTON_DEFAULT;
 					}
-					//nk_button_label(ctx, ptr_cmpts[i]->title, NK_BUTTON_HOVER);
+					//nk_button_label(ctx, ptr_cmpts[i]->title, NK_BUTTON_HOVER); //Ignore
 					ctx->button_behavior = button_behavior;
 					
 					nk_button_label(ctx, ptr_cmpts[i]->title);
+					//nk_button_label(ctx, ptr_cmpts[i].title);
+				}
+
+				if(ptr_cmpts[i]->type == "input_text"){
+				//if(ptr_cmpts[i].type == "button"){
+
+					/* Button layout 
+						TODO: Check this with input text
+					*/
+					nk_layout_row_static(ctx, 30, 80, 1);
+
+					//button_behavior = NK_BUTTON_DEFAULT;
+					//TODO: Get input text behaviour default
+
+					if (ptr_cmpts[i]->hovering == 1){
+						//button_behavior = NK_BUTTON_HOVER;
+						//TODO: Make hover for text input
+					}
+					if (i==mre_view.hoverable_counter){
+						button_behavior = NK_BUTTON_HOVER;
+					}else{
+						button_behavior = NK_BUTTON_DEFAULT;
+					}
+					//nk_button_label(ctx, ptr_cmpts[i]->title, NK_BUTTON_HOVER); //Ignore
+					ctx->button_behavior = button_behavior;
+					
+					nk_button_label(ctx, ptr_cmpts[i]->title);
+					nk_edit_string(ctx, NK_EDIT_SIMPLE, text[0], &text_len[0], 64, nk_filter_default);
 				}
 
 				if(ptr_cmpts[i]->type == "text"){
+				//if(ptr_cmpts[i].type == "text"){
 					/* Text layout */
 					//33 is the height of text 
 					//33 is font size!
@@ -1615,13 +1731,18 @@ void declare_view(struct mre_nk_c** ptr_cmpts){
 					//TODO: replace value with variable
 					nk_layout_row_static(ctx, (7*strlen(ptr_cmpts[i]->title)/(mre.width - 45))* 30, 
 						mre.width - 50, 1);
+					//nk_layout_row_static(ctx, (7*strlen(ptr_cmpts[i].title)/(mre.width - 45))* 30, 
+					//	mre.width - 50, 1);
 					nk_text_wrap(ctx, 
 						ptr_cmpts[i]->title,
+						//ptr_cmpts[i].title,
 						strlen(ptr_cmpts[i]->title)
+						//strlen(ptr_cmpts[i].title)
 						);
 				}
 
 				if(ptr_cmpts[i]->type == "video"){
+				//if(ptr_cmpts[i].type == "video"){
 					/*	TODO: 
 						Need a title to fill it in
 						Need an image for thumbnail
@@ -1635,6 +1756,8 @@ void declare_view(struct mre_nk_c** ptr_cmpts){
 					/* Set Text Title on Top */
 					nk_text(ctx, ptr_cmpts[i]->title,
 						strlen(ptr_cmpts[i]->title),NK_TEXT_ALIGN_CENTERED);
+					//nk_text(ctx, ptr_cmpts[i].title,
+					//	strlen(ptr_cmpts[i].title),NK_TEXT_ALIGN_CENTERED);
 					/*nk_text_wrap(ctx, 
 						ptr_cmpts[i]->title,
 						strlen(ptr_cmpts[i]->title)
@@ -1648,7 +1771,14 @@ void declare_view(struct mre_nk_c** ptr_cmpts){
 						Here is where we set the image object with an image id 
 						That handle and other default values are 
 					*/
-					img = nk_image_id(1);
+					//img = nk_image_id(1); //Using fixed id and default image for testing.
+					
+					//image_path = (char*)vm_malloc(100);
+					image_path = "E:\\video_play.gif";
+
+					//img = nk_image_path("E:\\tips.gif");
+					img = nk_image_path(image_path);
+
 					/* Validates nk_image image object
 						Checks bounds, Adds Image object to command
 						queuing commands for the drawing process 
@@ -1688,7 +1818,7 @@ the components.
 void update_gui(){
 	/*Declare context*/
     struct nk_context *ctx;
-	struct mre_nk_c* ptr_cmpts;
+	struct mre_nk_c** ptr_cmpts;
 
 	VMUINT8 *buffer;
 
@@ -1738,7 +1868,7 @@ void initiate_nk_gui(void){
 		clipboard, widget state flags
 	*/
     struct nk_context *ctx;
-	struct mre_nk_c * first_set_of_components;
+	//struct mre_nk_c * first_set_of_components;
 
     /* Variable declaration that are relevant to Implementation*/
     int running = 1;
@@ -1754,8 +1884,10 @@ void initiate_nk_gui(void){
 	/* get the target buffer from the layer */
 	buffer = vm_graphic_get_layer_buffer(layer_hdl[0]);
 
-	/* Updates mre_view */
-	set_test_view();
+
+	/* Start of the application. Launch Login View */
+	set_login_view();
+
 
 	/* Refreshes display */
 	update_gui();
@@ -1798,7 +1930,7 @@ void set_test2_view(){
 	/* Updating mre_view */
 	mre_view.hoverable_counter = 0;
 	mre_view.hoverable_items = 5;
-	mre_view.components = ptr_cmpts;
+	mre_view.components = ptr_cmpts; //TODO: This needs to be allocated. NOT ACTUALLY SET I THINK>> CHECK<<^VS
 	mre_view.components_count = 5;
 
 	//OR we could send mre_view object as a whole..
@@ -1806,7 +1938,7 @@ void set_test2_view(){
 }
 
 /* Updates mre_view to a test view */
-void set_test_view(){
+void set_test_view_here(){
 	//Initialise the pointers:
 	struct mre_nk_c *b1,*b2,*b3;
 	struct mre_nk_c *t1,*t2,*t3;

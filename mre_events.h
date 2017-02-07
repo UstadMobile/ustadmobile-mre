@@ -1,5 +1,5 @@
 /* 
-mre_events.h Events for the project 
+	mre_events.h Events for the project 
 */
 
 /*****************************************************************************

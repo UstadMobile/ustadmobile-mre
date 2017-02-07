@@ -1,5 +1,5 @@
 /* 
-mre_base64.c 
+	MRE Base: mre_base64.c - base64 stuff. Work In Progress.
 */
 
 #include "share.h"

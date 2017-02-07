@@ -1,8 +1,6 @@
 /*
-mre_file.h All file realted stuff's header file
+	mre_file.h All file realted stuff's header file
 */
-
-//#include "share.h"
 
 /*****************************************************************************
  * FUNCTION
@@ -135,12 +133,28 @@ void mre_dump_to_file(VMCHAR *tcp_buffer, VMINT size, VMINT *layer_hdl);
 VMINT mre_read_file(VMSTR file_name, VMCHAR *data);
 
 
-/**
-Get file size 
-**/
+/*****************************************************************************
+ * FUNCTION DECLARATION
+ *  mre_get_file_size
+ * DESCRIPTION
+ *  This function gets the file size
+ * PARAMETERS
+ *  file name		VMSTR		[IN]      name of file
+ * RETURNS
+ *	result			VMINT		[OUT]     some code for error and success
+*****************************************************************************/ 
 VMINT mre_get_file_size(VMSTR file_name);
 
-/**
-Open file and return the handle
-**/
+/*****************************************************************************
+ * FUNCTION DECLARATION
+ *  mre_open_file
+ * DESCRIPTION
+ *  This function opens the file and returns the handle
+ * PARAMETERS
+ *  file_path		VMSTR		[IN]		path of file
+ *	mode			VMUINT		[IN]		mode of file open
+ *	binary			VMUINT		[IN]		if file should be open as binary
+ * RETURNS
+ *	result			VMFILE		[OUT]		MRE's file handle
+*****************************************************************************/ 
 VMFILE mre_open_file(VMSTR file_path, VMUINT mode, VMUINT binary);

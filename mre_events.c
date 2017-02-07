@@ -189,10 +189,10 @@ void handle_keyevt (VMINT event, VMINT keycode) {
 					break;
 
 				case VM_KEY_NUM0:
-						vm_log_debug("Going back to Main Menu..");
-						mre_set_fileiocontext (FALSE);
-						mre_start_menu();
-						break;
+					vm_log_debug("Going back to Main Menu..");
+					mre_set_fileiocontext (FALSE);
+					mre_start_menu();
+					break;
 
 				case VM_KEY_RIGHT_SOFTKEY:
 					//Right Soft Key 

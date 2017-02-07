@@ -1,8 +1,6 @@
 /* 
-mre_display.h : Display alerts, updates, popups, etc 
+	mre_display.h : Display alerts, updates, popups, etc 
 */
-
-//#include "share.h"
 
 /*****************************************************************************
  * FUNCTION

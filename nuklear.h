@@ -224,6 +224,7 @@ CHANGELOG:
     - 2016/07/15 (1.01) - Changed button API to use context dependend button
                             behavior instead of passing it for every function call.
 */
+
 #ifndef NK_NUKLEAR_H_
 #define NK_NUKLEAR_H_
 
@@ -349,7 +350,7 @@ struct nk_rect {float x,y,w,h;};
 struct nk_recti {short x,y,w,h;};
 typedef char nk_glyph[NK_UTF_SIZE];
 typedef union {void *ptr; int id;} nk_handle;
-struct nk_image {nk_handle handle;unsigned short w,h;unsigned short region[4];};
+struct nk_image {nk_handle handle;unsigned short w,h;unsigned short region[4]; char *path;};
 struct nk_cursor {struct nk_image img; struct nk_vec2 size, offset;};
 struct nk_scroll {unsigned short x, y;};
 enum nk_heading {NK_UP, NK_RIGHT, NK_DOWN, NK_LEFT};
@@ -919,6 +920,7 @@ NK_API nk_handle                nk_handle_ptr(void*);
 NK_API nk_handle                nk_handle_id(int);
 NK_API struct nk_image          nk_image_ptr(void*);
 NK_API struct nk_image          nk_image_id(int);
+NK_API struct nk_image			nk_image_path(char *path); //Added Custom for MRE ^VS
 NK_API int                      nk_image_is_subimage(const struct nk_image* img);
 NK_API struct nk_image          nk_subimage_ptr(void*, unsigned short w, unsigned short h, struct nk_rect sub_region);
 NK_API struct nk_image          nk_subimage_id(int, unsigned short w, unsigned short h, struct nk_rect sub_region);
@@ -2585,6 +2587,13 @@ template<typename T> struct nk_alignof{struct Big {T x; char c;}; enum {
 #endif
 
 #endif /* NK_H_ */
+
+
+// We could divide it to nuklear.c here and nuklear.h
+//Or we could take the bits used by mre_view into another header file, etc 
+
+
+
 /*
  * ==============================================================
  *
@@ -4051,6 +4060,27 @@ nk_image_id(int id)
     s.region[1] = 0;
     s.region[2] = 0;
     s.region[3] = 0;
+    return s;
+}
+
+/* Custom MRE: Create one with path in it somewhere ^VS */ 
+NK_API struct nk_image
+nk_image_path(char *path){
+	struct nk_image s;
+    nk_zero(&s, sizeof(s));
+    //s.handle.id = id; //We are not using the id for now in MRE ^VS
+
+	/* TODO: Get image width and height and set it here */ 
+    s.w = 0; s.h = 0;
+
+    s.region[0] = 0;
+    s.region[1] = 0;
+    s.region[2] = 0;
+    s.region[3] = 0;
+
+	// Set the path of the image file here 
+	s.path = path;
+
     return s;
 }
 

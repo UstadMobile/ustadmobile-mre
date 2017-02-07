@@ -1,9 +1,13 @@
 /*
-mre_views.c The logic for the views related to MRE using Nuklear 
+
+MRE Views, mre_views.c : The views C file. 
+This file has the definition for the views declaration that uses Nuklear 
+
 */
 
 #include "share.h"
 #include "mre_views.h"
+#include "mre_components.h"
 
 /*****************************************************************************
  * FUNCTION
@@ -19,32 +23,53 @@ mre_views.c The logic for the views related to MRE using Nuklear
 void mre_set_graphic_global_data(void)
 {
 	/* function body */
-    vm_log_file("mre_set_graphic_global_data function starts..\n");
-    mre_set_curr_x(MRE_SET_X);
-    mre_set_curr_y(MRE_SET_Y);
+    printf("mre_set_graphic_global_data function starts..\n");
+    //mre_set_curr_x(MRE_SET_X);
+    //mre_set_curr_y(MRE_SET_Y);
     vm_font_set_font_size(VM_SMALL_FONT);
     /*log information*/
-    vm_log_file("mre_set_global_data done.\n");
+    printf("mre_set_global_data done.\n");
 }
-
-/* Go to next page placeholder */
+/*****************************************************************************
+ * FUNCTION
+ *  goto_next_page
+ * DESCRIPTION
+ *  Goes to the next page in the tree. Currently a placeholder
+ * PARAMETERS
+ *  none
+ * RETURNS
+ *	none
+*****************************************************************************/
 void goto_next_page(){
 
 }
 
-/* Go to previous page placeholder */
+/*****************************************************************************
+ * FUNCTION
+ *  goto_previous_page
+ * DESCRIPTION
+ *  Goes to the previous page in the tree. Currently a placeholder
+ * PARAMETERS
+ *  none
+ * RETURNS
+ *	none
+*****************************************************************************/
 void goto_previous_page(){
 
 }
-
 
 /*****************************************************************************
  * FUNCTION
  *  mre_show_image
  * DESCRIPTION
- *  Image is placed in BLUE layer_buffer with effective changes made in this function 
+ *  Shows the image! Looks the image up, adds it to the layer at a place. 
  * PARAMETERS
- *  size_ctrl				[IN]      controls size of image
+ *  size_ctrl				[IN]		VMINT		controls size of image
+ *  f_wname					[IN]		VMWSTR		image full filepath
+ *  file_name				[IN]		VMSTR		image name only
+ *  mre_layer_hdl			[IN]		VMINT		MRE display layer
+ *	x						[IN]		short		x axis?
+ *	y						[IN]		short		y axis?
  * RETURNS
  *	none
 *****************************************************************************/
@@ -61,11 +86,11 @@ void mre_show_image(VMINT size_ctrl, VMWSTR f_wname, VMSTR file_name, VMINT *mre
 	struct frame_prop* image_prop = NULL;
 	
 	/* File name related variables */
-	VMWSTR wfilename;
-	VMINT wfilename_size;
-	VMSTR filename;
-	VMSTR filename_vm;
-	VMCHAR f_name[MRE_STR_SIZE_MAX + 1];	//Old usage for video filename string
+	//VMWSTR wfilename;
+	//VMINT wfilename_size;
+	//VMSTR filename;
+	//VMSTR filename_vm;
+	//VMCHAR f_name[MRE_STR_SIZE_MAX + 1];	//Old usage for video filename string
 	//VMWCHAR f_wname[MRE_STR_SIZE_MAX + 1]; //Old usage for video filename Part of the argument now
 
 	//VMSTR file_name = "tips.gif"; // Part of argument now
@@ -399,3 +424,140 @@ void mre_show_image(VMINT size_ctrl, VMWSTR f_wname, VMSTR file_name, VMINT *mre
 	vm_free(data);
 }
 
+/**************************************************************************************
+*										VIEWS										  *
+*				The Views Go Here. Views are basically a list of components			  *
+*						that gets converted to Nuklear's draw calls					  *
+**************************************************************************************/
+
+/*****************************************************************************
+ * FUNCTION
+ *  set_custom_view
+ * DESCRIPTION
+ *  PLACEHOLDER: Sets a custom view. 
+ * PARAMETERS
+ *  none
+ * RETURNS
+ *	none
+*****************************************************************************/
+void set_custom_view(){
+
+}
+
+/*****************************************************************************
+ * FUNCTION
+ *  set_test_view
+ * DESCRIPTION
+ *  A Test view with buttons, text, video. Used for Testing 
+ * PARAMETERS
+ *  none
+ * RETURNS
+ *	none
+*****************************************************************************/
+void set_test_view(){
+	//Initialise the pointers:
+	struct mre_nk_c *b1,*b2,*b3;
+	struct mre_nk_c *t1,*t2,*t3;
+	struct mre_nk_c *v1;
+	struct mre_nk_c *ptr;
+	struct mre_nk_c button1, button2, button3;
+
+	struct mre_nk_c cmpnts[10];
+	struct mre_nk_c *ptr_cmpts[10];
+	struct mre_nk_c components[5];
+	int i;
+	int ptr_cmpts_count;
+
+	b1 = mre_nk_c_create("button", "Fox",0,0,"","");
+	b2 = mre_nk_c_create("button", "Jumped",0,1,"","");
+	b3 = mre_nk_c_create("button", "Dog",0,0,"","");
+	t1 = mre_nk_c_create("text", "So then he went to the park to think about what just happened and couldn't keep that smile off of his dog's face..",
+		strlen("So then he went to the park to think about what just happened and couldn't keep that smile off of his dog's face.."),0,"","");
+	v1 = mre_nk_c_create("video", "How to UstadMobile",0,0,"small.mp4","/path/to/video_thumbnail.jpg");
+
+	ptr_cmpts[0] = b1;
+	ptr_cmpts[1] = b2;
+	ptr_cmpts[2] = b3;
+	ptr_cmpts[3] = t1;
+	ptr_cmpts[4] = v1;
+
+	ptr_cmpts_count = 5;
+	for(i=0;i<ptr_cmpts_count;i++){
+		printf("\nComponent %d's title: %s",i,ptr_cmpts[i]->title);
+	}
+
+	// Updating mre_view
+	mre_view.hoverable_counter = 0;
+	mre_view.hoverable_items = 4;
+	mre_view.components = ptr_cmpts;
+	mre_view.components_count = 4;
+
+	//OR we could send mre_view object as a whole..
+	//return ptr_cmpts;
+}
+
+/*****************************************************************************
+ * FUNCTION
+ *  set_login_view
+ * DESCRIPTION
+ *  WIP: Login View. 
+ * PARAMETERS
+ *  none
+ * RETURNS
+ *	none
+*****************************************************************************/
+void set_login_view(){
+	//Initialise the pointers:
+	struct mre_nk_c *b1,*b2,*b3;
+	struct mre_nk_c *t1,*t2,*t3;
+	struct mre_nk_c *v1;
+	struct mre_nk_c *ptr;
+	struct mre_nk_c button1, button2, button3;
+
+	struct mre_nk_c cmpnts[10];
+	struct mre_nk_c *ptr_cmpts[10];
+	struct mre_nk_c components[5];
+	int i;
+	int ptr_cmpts_count;
+
+	t1 = mre_nk_c_create("text", "Please Enter your Username and Password to Login.",
+		strlen("Please Enter your Username and Password to Login."),0,"","");
+	b1 = mre_nk_c_create("button", "Login",1,0,"","");
+	b2 = mre_nk_c_create("button", "Skip",0,0,"","");
+	b3 = mre_nk_c_create("button", "Register",0,0,"","");
+	//i1, i2
+	
+	//v1 = mre_nk_c_create("video", "How to UstadMobile",0,0,"small.mp4","/path/to/video_thumbnail.jpg");
+
+	ptr_cmpts[0] = b1;
+	ptr_cmpts[1] = b2;
+	ptr_cmpts[2] = b3;
+	ptr_cmpts[3] = t1;
+	//ptr_cmpts[4] = v1;
+
+	ptr_cmpts_count = 4;
+	for(i=0;i<ptr_cmpts_count;i++){
+		printf("\nComponent %d's title: %s",i,ptr_cmpts[i]->title);
+	}
+
+	// Updating mre_view
+	mre_view.hoverable_counter = 0;
+	mre_view.hoverable_items = 3;
+	mre_view.components = ptr_cmpts;
+	mre_view.components_count = 3;
+
+}
+
+/*****************************************************************************
+ * FUNCTION
+ *  add_view_to_history
+ * DESCRIPTION
+ *  WIP: Adds View to History. 
+ * PARAMETERS
+ *  none
+ * RETURNS
+ *	none
+*****************************************************************************/
+void add_view_to_history(){
+
+}

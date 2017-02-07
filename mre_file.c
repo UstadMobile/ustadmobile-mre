@@ -1,9 +1,13 @@
 /*
-mre_file.c File realted source code
+	MRE File: mre_file.c - File realted source code
+
+	Author: Varuna Singh, UstadMobile
 */
+
+
 #include "share.h"
 #include "mre_file.h"
-#include "mre_display.h"	//For display stuff
+#include "mre_display.h"
 
 /*****************************************************************************
  * FUNCTION
@@ -15,7 +19,6 @@ mre_file.c File realted source code
  * RETURNS
  *	result                  [OUT]     some code for error and success   
 *****************************************************************************/
-
 VMINT mre_create_file (VMSTR file_name)
 {
     VMFILE fc;
@@ -144,7 +147,6 @@ VMBOOL does_this_file_exist(VMSTR filename){
 	vm_ascii_to_ucs2 (wfilename, MRE_STR_SIZE_MAX, filename);
 	return does_this_wfile_exist(wfilename);
 	return FALSE;
-
 }
 
 /*****************************************************************************
@@ -213,7 +215,6 @@ VMINT mre_write_line_to_file (VMSTR file_name, VMSTR line)
 	/* Closing file */
 	vm_file_close(file_handle);
 	return MRE_FILE_NOT_WRITTEN;
-
 }
 
 /*****************************************************************************
@@ -283,7 +284,6 @@ VMINT mre_write_line_to_file2 (VMSTR file_name, VMSTR line)
 	/* Closing file */
 	vm_file_close(file_handle);
 	return MRE_FILE_NOT_WRITTEN;
-
 }
 
 /*****************************************************************************
@@ -475,12 +475,18 @@ VMINT mre_read_file(VMSTR file_name, VMCHAR  *data){
 		return MRE_FILE_OPEN_FAILED;
 	}
     return MRE_SCILENT;
-
 }
 
-/**
-Get file size
-**/
+/*****************************************************************************
+ * FUNCTION
+ *  get_file_size
+ * DESCRIPTION
+ *  Gets the file specified size. 
+ * PARAMETERS
+ *	f_name			[IN]	VMSTR		Complete file name of the file	
+ * RETURNS
+ *	file_size		[OUT]	VMINT		The file's size in int
+*****************************************************************************/
 VMINT get_file_size(VMSTR f_name){
 		VMFILE  file_handle; 
 		//VMCHAR  f_name[MRE_STR_SIZE_MAX + 1] ;
